@@ -1,5 +1,5 @@
 import { Controller } from '@nestjs/common';
-import { IRoutes } from '../controllers';
+import { IRoutes } from '../routes';
 
 @Controller(IRoutes.track)
 export class TrackController {}
