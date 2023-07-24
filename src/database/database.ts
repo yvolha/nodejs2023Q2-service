@@ -1,18 +1,18 @@
-import { IAlbum } from "src/album/album.interface";
-import { IArtist } from "src/artist/artist.interface";
-import { ITrack } from "src/track/track.interface";
-import { IUser } from "src/user/user.interface";
+import { IAlbum } from 'src/album/album.interface';
+import { IArtist } from 'src/artist/artist.interface';
+import { ITrack } from 'src/track/track.interface';
+import { IUser } from 'src/user/user.interface';
 
 interface IDatabase {
-  users: IUser[],
-  albums: IAlbum[],
-  artists: IArtist[],
-  tracks: ITrack[],
+  users: IUser[];
+  albums: IAlbum[];
+  artists: IArtist[];
+  tracks: ITrack[];
   favs: {
-    artists: IArtist[],
-    albums: IAlbum[],
-    tracks: ITrack[],
-  }
+    artists: IArtist[];
+    albums: IAlbum[];
+    tracks: ITrack[];
+  };
 }
 
 export const database: IDatabase = {

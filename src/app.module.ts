@@ -5,9 +5,7 @@ import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 
 @Module({
-  imports: [
-    ConfigModule.forRoot(),
-    UserModule],
+  imports: [ConfigModule.forRoot(), UserModule],
   controllers: [AppController],
   providers: [AppService],
 })

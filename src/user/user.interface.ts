@@ -7,4 +7,4 @@ export interface IUser {
   updatedAt: number; // timestamp of last update
 }
 
-export type IUserWithoutPassword = Omit<IUser, "password">;
+export type IUserWithoutPassword = Omit<IUser, 'password'>;
