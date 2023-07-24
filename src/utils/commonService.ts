@@ -4,7 +4,6 @@ import { database } from 'src/database/database';
 import { ITrack } from 'src/track/track.interface';
 
 export class CommonService {
-
   async getAll(field: string): Promise<Array<IArtist | IAlbum | ITrack>> {
     return await database[field];
   }
@@ -21,5 +20,4 @@ export class CommonService {
     );
     return;
   }
-
 }
