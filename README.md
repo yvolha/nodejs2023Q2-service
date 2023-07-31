@@ -1,6 +1,4 @@
-# Home Library Service
-
-## Prerequisites
+# Home Library Service by Volha
 
 TO CHECK THE APP, PLEASE DO THE BELOW:
 
@@ -25,8 +23,6 @@ npm run start
 
 
 ## Testing
-
-After application running open new terminal and enter:
 
 To run all tests without authorization
 
