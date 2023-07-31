@@ -50,6 +50,14 @@ export class UserController {
   @HttpCode(HttpStatus.CREATED)
   createOne(@Body() createUserDto: CreateUserDto) {
     const user = this.userService.createOne(createUserDto);
+    const { login, password } = createUserDto;
+
+    if (!login || !password) {
+      throw new HttpException(
+        ERR_MSGS.INCORRECT_DATA(),
+        HttpStatus.BAD_REQUEST,
+      );
+    }
 
     return new UserEntity(user);
   }
@@ -61,6 +69,14 @@ export class UserController {
     @Body() updatePasswordDto: UpdatePasswordDto,
   ) {
     const user = this.userService.getOne(id);
+    const { oldPassword, newPassword } = updatePasswordDto;
+
+    if (!oldPassword || !newPassword) {
+      throw new HttpException(
+        ERR_MSGS.INCORRECT_DATA(),
+        HttpStatus.BAD_REQUEST,
+      );
+    }
 
     if (!user) {
       throw new HttpException(
