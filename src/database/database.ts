@@ -3,7 +3,7 @@ import { IArtist } from 'src/artist/artist.interface';
 import { ITrack } from 'src/track/track.interface';
 import { IUser } from 'src/user/user.interface';
 
-interface IDatabase {
+export interface IDatabase {
   users: IUser[];
   albums: IAlbum[];
   artists: IArtist[];

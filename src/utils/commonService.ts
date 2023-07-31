@@ -8,7 +8,10 @@ export class CommonService {
     return await database[field];
   }
 
-  async getOne(id: string, field: string): Promise<IArtist | IAlbum | ITrack> {
+  async getOne(
+    id: string,
+    field: string,
+  ): Promise<IArtist | IAlbum | ITrack | undefined> {
     return await database[field].find(
       (item: IArtist | IAlbum | ITrack) => item.id === id,
     );
