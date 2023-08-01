@@ -49,7 +49,6 @@ export class AlbumController {
   }
 
   @Put(':id')
-  @HttpCode(HttpStatus.CREATED)
   async updateOne(
     @Param('id', new ParseUUIDPipe())
     id: string,

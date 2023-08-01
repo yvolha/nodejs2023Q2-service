@@ -3,43 +3,46 @@ import { v4 as uuid } from 'uuid';
 
 import { database } from 'src/database/database';
 import { CommonService } from 'src/utils/commonService';
-import { CreateAlbumDto, UpdateAlbumDto } from './artist.dto';
 import { IDbEntities } from 'src/database/entities';
+import { CreateArtistDto, UpdateArtistDto } from './artist.dto';
 
 @Injectable()
 export class ArtistService extends CommonService {
-  createOne(createAlbumDto: CreateAlbumDto) {
-    const newAlbum = {
+  createOne(createArtistDto: CreateArtistDto) {
+    const newArtist = {
       id: uuid(),
-      artistId: null,
-      ...createAlbumDto,
+      ...createArtistDto,
     };
 
-    database.albums = [...database.albums, newAlbum];
+    database.artists = [...database.artists, newArtist];
 
-    return newAlbum;
+    return newArtist;
   }
 
-  async updateOne(id: string, updateAlbumDto: UpdateAlbumDto) {
-    const album = await this.getOne(id, IDbEntities.ALBUMS);
+  async updateOne(id: string, updateArtistDto: UpdateArtistDto) {
+    const artist = await this.getOne(id, IDbEntities.ARTISTS);
 
-    const albumIndex = database.albums.findIndex((album) => album.id);
+    const artistIndex = database.artists.findIndex((artist) => artist.id);
 
-    const updAlbum = {
-      ...album,
-      ...updateAlbumDto,
+    const updArtist = {
+      ...artist,
+      ...updateArtistDto,
     };
 
-    database.albums[albumIndex] = updAlbum;
+    database.artists[artistIndex] = updArtist;
 
-    return updAlbum;
+    return updArtist;
   }
 
   async delete(id: string, field: string) {
-    database.favs.albums = database.favs.albums.filter((id) => id !== id);
+    database.favs.artists = database.favs.artists.filter((id) => id !== id);
 
     database.tracks.forEach((track) =>
-      track.albumId === id ? (track.albumId = null) : track.albumId,
+      track.artistId === id ? (track.artistId = null) : track.artistId,
+    );
+
+    database.albums.forEach((album) =>
+      album.artistId === id ? (album.artistId = null) : album.artistId,
     );
 
     super.delete(id, field);

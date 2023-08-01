@@ -16,55 +16,54 @@ import { IRoutes } from '../routes';
 import { ArtistService } from './artist.service';
 import { IDbEntities } from 'src/database/entities';
 import { ERR_MSGS } from 'src/utils/messages';
-import { CreateAlbumDto, UpdateAlbumDto } from './artist.dto';
+import { CreateArtistDto, UpdateArtistDto } from './artist.dto';
 
 @Controller(IRoutes.artist)
 export class ArtistController {
-  constructor(private readonly albumService: ArtistService) {}
+  constructor(private readonly artistService: ArtistService) {}
 
   @Get()
   @HttpCode(HttpStatus.OK)
   getAll() {
-    return this.albumService.getAll(IDbEntities.ALBUMS);
+    return this.artistService.getAll(IDbEntities.ARTISTS);
   }
 
   @Get(':id')
   @HttpCode(HttpStatus.OK)
   async getOne(@Param('id', new ParseUUIDPipe()) id: string) {
-    const album = await this.albumService.getOne(id, IDbEntities.ALBUMS);
+    const artist = await this.artistService.getOne(id, IDbEntities.ARTISTS);
 
-    if (album) {
-      return album;
+    if (artist) {
+      return artist;
     } else {
       throw new HttpException(
-        ERR_MSGS.NOT_FOUND('Album', id),
+        ERR_MSGS.NOT_FOUND('Artist', id),
         HttpStatus.NOT_FOUND,
       );
     }
   }
 
   @Post()
-  async createOne(@Body() createAlbumDto: CreateAlbumDto) {
-    return this.albumService.createOne(createAlbumDto);
+  async createOne(@Body() createArtistDto: CreateArtistDto) {
+    return this.artistService.createOne(createArtistDto);
   }
 
   @Put(':id')
-  @HttpCode(HttpStatus.CREATED)
   async updateOne(
     @Param('id', new ParseUUIDPipe())
     id: string,
-    @Body() updateAlbumDto: UpdateAlbumDto,
+    @Body() updateArtistDto: UpdateArtistDto,
   ) {
-    const album = await this.albumService.getOne(id, IDbEntities.ALBUMS);
+    const artist = await this.artistService.getOne(id, IDbEntities.ARTISTS);
 
-    if (!album) {
+    if (!artist) {
       throw new HttpException(
-        ERR_MSGS.NOT_FOUND('Album', id),
+        ERR_MSGS.NOT_FOUND('Artist', id),
         HttpStatus.NOT_FOUND,
       );
     }
 
-    return await this.albumService.updateOne(id, updateAlbumDto);
+    return await this.artistService.updateOne(id, updateArtistDto);
   }
 
   @Delete(':id')
@@ -73,15 +72,15 @@ export class ArtistController {
     @Param('id', new ParseUUIDPipe())
     id: string,
   ) {
-    const album = await this.albumService.getOne(id, IDbEntities.ALBUMS);
+    const artist = await this.artistService.getOne(id, IDbEntities.ARTISTS);
 
-    if (!album) {
+    if (!artist) {
       throw new HttpException(
-        ERR_MSGS.NOT_FOUND('Album', id),
+        ERR_MSGS.NOT_FOUND('Artist', id),
         HttpStatus.NOT_FOUND,
       );
     }
 
-    await this.albumService.delete(id, IDbEntities.ALBUMS);
+    await this.artistService.delete(id, IDbEntities.ARTISTS);
   }
 }
