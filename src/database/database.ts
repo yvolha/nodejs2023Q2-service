@@ -9,9 +9,9 @@ export interface IDatabase {
   artists: IArtist[];
   tracks: ITrack[];
   favs: {
-    artists: IArtist[];
-    albums: IAlbum[];
-    tracks: ITrack[];
+    artists: string[];
+    albums: string[];
+    tracks: string[];
   };
 }
 
