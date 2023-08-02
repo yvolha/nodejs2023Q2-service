@@ -1,4 +1,5 @@
 import { Controller } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import {
   Get,
   Param,
@@ -18,6 +19,7 @@ import { IDbEntities } from 'src/database/entities';
 import { ERR_MSGS } from 'src/utils/messages';
 import { CreateTrackDto, UpdateTrackDto } from './track.dto';
 
+@ApiTags(IRoutes.track)
 @Controller(IRoutes.track)
 export class TrackController {
   constructor(private readonly trackService: TrackService) {}

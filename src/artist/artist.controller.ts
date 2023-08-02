@@ -1,4 +1,5 @@
 import { Controller } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import {
   Get,
   Param,
@@ -19,6 +20,7 @@ import { ERR_MSGS } from 'src/utils/messages';
 import { CreateArtistDto, UpdateArtistDto } from './artist.dto';
 
 @Controller(IRoutes.artist)
+@ApiTags(IRoutes.artist)
 export class ArtistController {
   constructor(private readonly artistService: ArtistService) {}
 

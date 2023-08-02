@@ -13,12 +13,14 @@ import {
   Delete,
   HttpStatus,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { IRoutes } from '../routes';
 import { UserService } from './user.service';
 import { UserEntity } from './user.entity';
 import { ERR_MSGS } from 'src/utils/messages';
 import { CreateUserDto, UpdatePasswordDto } from './user.dto';
 
+@ApiTags(IRoutes.user)
 @Controller(IRoutes.user)
 @UseInterceptors(ClassSerializerInterceptor)
 export class UserController {
