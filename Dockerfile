@@ -5,6 +5,7 @@ WORKDIR /app
 COPY package*.json ./
 
 COPY ./src ./src
+COPY ./prisma ./prisma/
 COPY tsconfig.build.json ./
 COPY tsconfig.json ./
 
@@ -12,6 +13,8 @@ RUN npm install \
     && npm run build \
     && npm cache clean --force
 
-EXPOSE 4000
+RUN npx prisma generate
 
-CMD [ "npm", "run", "start:prod" ]
+EXPOSE ${PORT}
+
+CMD [ "npm", "run", "prisma:start" ]
