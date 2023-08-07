@@ -1,20 +1,15 @@
-FROM node:18-alpine as build
+FROM node:gallium-alpine as build
 
 WORKDIR /app
 
-COPY package*.json ./
+COPY package*.json .
 
-COPY ./src ./src
-COPY ./prisma ./prisma/
-COPY tsconfig.build.json ./
-COPY tsconfig.json ./
+RUN npm ci --omit=dev && npm cache clean --force
 
-RUN npm install \
-    && npm run build \
-    && npm cache clean --force
+COPY . .
 
 RUN npx prisma generate
 
 EXPOSE ${PORT}
 
-CMD [ "npm", "run", "prisma:start" ]
+CMD ["npm", "run", "prisma:start"]
