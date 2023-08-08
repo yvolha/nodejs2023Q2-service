@@ -1,11 +1,15 @@
 import { IAlbum } from 'src/album/album.interface';
 import { IArtist } from 'src/artist/artist.interface';
 import { database } from 'src/database/database';
+import { PrismaService } from 'src/prisma-module/prisma.service';
 import { ITrack } from 'src/track/track.interface';
 
 export class CommonService {
+  constructor(private prismaService: PrismaService){}
+
   async getAll(field: string): Promise<Array<IArtist | IAlbum | ITrack>> {
-    return await database[field];
+    console.log(this.prismaService)
+  return await this.prismaService[field].findMany();
   }
 
   async getOne(

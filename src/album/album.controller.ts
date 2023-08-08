@@ -28,7 +28,7 @@ export class AlbumController {
   @Get()
   @HttpCode(HttpStatus.OK)
   async getAll() {
-    return await this.albumService.getAll(IDbEntities.ALBUMS);
+    return await this.albumService.getAll(IRoutes.album);
   }
 
   @Get(':id')

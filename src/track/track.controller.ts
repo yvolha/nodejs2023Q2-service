@@ -26,8 +26,8 @@ export class TrackController {
 
   @Get()
   @HttpCode(HttpStatus.OK)
-  getAll() {
-    return this.trackService.getAll(IDbEntities.TRACKS);
+  async getAll() {
+    return await this.trackService.getAll(IRoutes.track);
   }
 
   @Get(':id')

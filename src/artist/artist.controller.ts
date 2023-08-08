@@ -27,7 +27,7 @@ export class ArtistController {
   @Get()
   @HttpCode(HttpStatus.OK)
   getAll() {
-    return this.artistService.getAll(IDbEntities.ARTISTS);
+    return this.artistService.getAll(IRoutes.artist);
   }
 
   @Get(':id')

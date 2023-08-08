@@ -8,6 +8,7 @@ import { AlbumModule } from './album/album.module';
 import { ArtistModule } from './artist/artist.module';
 import { FavsModule } from './favs/favs.module';
 import { PrismaModule } from './prisma-module/prisma.module';
+import { PrismaService } from './prisma-module/prisma.service';
 
 @Module({
   imports: [
