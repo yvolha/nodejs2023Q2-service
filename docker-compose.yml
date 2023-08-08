@@ -10,6 +10,8 @@ services:
       - ./:/app
     environment:
       PORT: ${PORT}
+    depends_on:
+      - postgres
   
   postgres:
     image: postgres
@@ -21,7 +23,7 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
       DATABASE_URL: ${DATABASE_URL}
     ports:
-      - 5432:5432
+      - ${POSTGRES_PORT}:${POSTGRES_PORT}
 
 volumes:
   postgres_vol:
