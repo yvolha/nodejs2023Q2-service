@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { v4 as uuid } from 'uuid';
 
 import { database } from 'src/database/database';
-import { CommonService } from 'src/utils/commonService';
+import { CommonService } from 'src/common/common.service';
 import { CreateTrackDto, UpdateTrackDto } from './track.dto';
 import { IDbEntities } from 'src/database/entities';
 

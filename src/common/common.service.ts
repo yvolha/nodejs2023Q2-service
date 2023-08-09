@@ -5,11 +5,11 @@ import { PrismaService } from 'src/prisma-module/prisma.service';
 import { ITrack } from 'src/track/track.interface';
 
 export class CommonService {
-  constructor(private prismaService: PrismaService){}
+  constructor(private prismaService: PrismaService) {}
 
   async getAll(field: string): Promise<Array<IArtist | IAlbum | ITrack>> {
-    console.log(this.prismaService)
-  return await this.prismaService[field].findMany();
+    console.log(this.prismaService);
+    return await this.prismaService[field].findMany();
   }
 
   async getOne(
