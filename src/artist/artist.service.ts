@@ -5,46 +5,21 @@ import { database } from 'src/database/database';
 import { CommonService } from 'src/common/common.service';
 import { IDbEntities } from 'src/database/entities';
 import { CreateArtistDto, UpdateArtistDto } from './artist.dto';
+import { PrismaService } from 'src/prisma-module/prisma.service';
+import { IArtist } from './artist.interface';
+import { IAlbum } from 'src/album/album.interface';
+import { ITrack } from 'src/track/track.interface';
+import { Artist } from '@prisma/client';
 
 @Injectable()
-export class ArtistService extends CommonService {
-  createOne(createArtistDto: CreateArtistDto) {
-    const newArtist = {
-      id: uuid(),
-      ...createArtistDto,
-    };
-
-    database.artists = [...database.artists, newArtist];
-
-    return newArtist;
+export class ArtistService  {
+  constructor(private prismaService: PrismaService) {}
+  async getAll(): Promise<Artist[]> {
+    console.log("PRISMA CONSOLELOG", this.prismaService);
+    return await this.prismaService.artist.findMany();
   }
 
-  async updateOne(id: string, updateArtistDto: UpdateArtistDto) {
-    const artist = await this.getOne(id, IDbEntities.ARTISTS);
 
-    const artistIndex = database.artists.findIndex((artist) => artist.id);
 
-    const updArtist = {
-      ...artist,
-      ...updateArtistDto,
-    };
 
-    database.artists[artistIndex] = updArtist;
-
-    return updArtist;
-  }
-
-  async delete(id: string, field: string) {
-    database.favs.artists = database.favs.artists.filter((id) => id !== id);
-
-    database.tracks.forEach((track) =>
-      track.artistId === id ? (track.artistId = null) : track.artistId,
-    );
-
-    database.albums.forEach((album) =>
-      album.artistId === id ? (album.artistId = null) : album.artistId,
-    );
-
-    super.delete(id, field);
-  }
 }

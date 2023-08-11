@@ -12,6 +12,7 @@ import {
   ParseUUIDPipe,
   HttpException,
 } from '@nestjs/common';
+import { Artist } from '@prisma/client';
 
 import { IRoutes } from '../routes';
 import { ArtistService } from './artist.service';
@@ -26,63 +27,8 @@ export class ArtistController {
 
   @Get()
   @HttpCode(HttpStatus.OK)
-  getAll() {
-    return this.artistService.getAll(IRoutes.artist);
+  async getAll(): Promise<Artist[]> {
+    return await this.artistService.getAll();
   }
 
-  @Get(':id')
-  @HttpCode(HttpStatus.OK)
-  async getOne(@Param('id', new ParseUUIDPipe()) id: string) {
-    const artist = await this.artistService.getOne(id, IDbEntities.ARTISTS);
-
-    if (artist) {
-      return artist;
-    } else {
-      throw new HttpException(
-        ERR_MSGS.NOT_FOUND('Artist', id),
-        HttpStatus.NOT_FOUND,
-      );
-    }
-  }
-
-  @Post()
-  async createOne(@Body() createArtistDto: CreateArtistDto) {
-    return this.artistService.createOne(createArtistDto);
-  }
-
-  @Put(':id')
-  async updateOne(
-    @Param('id', new ParseUUIDPipe())
-    id: string,
-    @Body() updateArtistDto: UpdateArtistDto,
-  ) {
-    const artist = await this.artistService.getOne(id, IDbEntities.ARTISTS);
-
-    if (!artist) {
-      throw new HttpException(
-        ERR_MSGS.NOT_FOUND('Artist', id),
-        HttpStatus.NOT_FOUND,
-      );
-    }
-
-    return await this.artistService.updateOne(id, updateArtistDto);
-  }
-
-  @Delete(':id')
-  @HttpCode(HttpStatus.NO_CONTENT)
-  async deleteOne(
-    @Param('id', new ParseUUIDPipe())
-    id: string,
-  ) {
-    const artist = await this.artistService.getOne(id, IDbEntities.ARTISTS);
-
-    if (!artist) {
-      throw new HttpException(
-        ERR_MSGS.NOT_FOUND('Artist', id),
-        HttpStatus.NOT_FOUND,
-      );
-    }
-
-    await this.artistService.delete(id, IDbEntities.ARTISTS);
-  }
 }
