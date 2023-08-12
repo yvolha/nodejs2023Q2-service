@@ -13,10 +13,10 @@ import { Artist } from '@prisma/client';
 
 @Injectable()
 export class ArtistService  {
-  constructor(private prismaService: PrismaService) {}
-  getAll(): Promise<Artist[]> {
-    console.log("PRISMA CONSOLELOG", this.prismaService);
-    return this.prismaService.artist.findMany();
+  constructor(private prisma: PrismaService) {}
+  async getAll() {
+    
+    return await this.prisma.artist.findMany();
   }
 
 

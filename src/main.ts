@@ -29,4 +29,4 @@ async function bootstrap() {
   }).catch(err => console.log(err));
 }
 
-bootstrap();
+bootstrap().catch(err => console.log(err));
