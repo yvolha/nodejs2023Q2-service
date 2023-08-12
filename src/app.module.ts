@@ -18,7 +18,6 @@ import { CommonModule } from './common/common.module';
     AlbumModule,
     ArtistModule,
     FavsModule,
-    PrismaModule,
     CommonModule,
   ],
   controllers: [AppController],

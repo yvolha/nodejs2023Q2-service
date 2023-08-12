@@ -27,8 +27,8 @@ export class ArtistController {
 
   @Get()
   @HttpCode(HttpStatus.OK)
-  async getAll(): Promise<Artist[]> {
-    return await this.artistService.getAll();
+  getAll(): Promise<Artist[]> {
+    return this.artistService.getAll();
   }
 
 }

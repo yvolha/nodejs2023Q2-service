@@ -1,25 +1,31 @@
+version: '3.9'
 
 services:
   app:
     image: node:18-alpine
+    container_name: app
+    restart: always
     build:
       dockerfile: ./Dockerfile
       context: .
-    command: sh -c "npx prisma migrate dev --name init && npm run start:dev"
     ports:
       - ${PORT}:${PORT}
-    working_dir: /app
     volumes:
-      - ./:/app
+      - .:/app
+      - node_modules:/app/node_modules
     environment:
       - PORT=${PORT}
     depends_on:
       - postgres
+    networks:
+      - docker-network
   
   postgres:
     image: postgres
+    container_name: postgres
+    restart: always
     volumes:
-      - postgres_vol:/var/lib/postgresql/data/
+      - data:/var/lib/postgresql/data
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
@@ -27,7 +33,13 @@ services:
       - DATABASE_URL=${DATABASE_URL}
     ports:
       - ${POSTGRES_PORT}:${POSTGRES_PORT}
+    networks:
+      - docker-network
 
 volumes:
-  postgres_vol:
+  node_modules:
+  data:
+networks:
+  docker-network:
+    driver: bridge
 

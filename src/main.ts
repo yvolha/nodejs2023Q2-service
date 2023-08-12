@@ -3,7 +3,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
-const PORT = process.env.PORT || 4000;
+const PORT = +process.env.PORT || 4000;
 
 const SWAGGER_CONFIG = {
   TITLE: 'Home Library Service',
@@ -12,7 +12,7 @@ const SWAGGER_CONFIG = {
 };
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { cors: true });
   app.useGlobalPipes(new ValidationPipe());
 
   const config = new DocumentBuilder()
@@ -26,7 +26,7 @@ async function bootstrap() {
 
   await app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
-  });
+  }).catch(err => console.log(err));
 }
 
 bootstrap();

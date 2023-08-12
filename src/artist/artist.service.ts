@@ -14,9 +14,9 @@ import { Artist } from '@prisma/client';
 @Injectable()
 export class ArtistService  {
   constructor(private prismaService: PrismaService) {}
-  async getAll(): Promise<Artist[]> {
+  getAll(): Promise<Artist[]> {
     console.log("PRISMA CONSOLELOG", this.prismaService);
-    return await this.prismaService.artist.findMany();
+    return this.prismaService.artist.findMany();
   }
 
 

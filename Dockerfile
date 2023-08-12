@@ -10,6 +10,12 @@ COPY . .
 
 RUN npx prisma generate
 
+FROM node:gallium-alpine
+
+WORKDIR /app
+
+COPY --from=build /app .
+
 EXPOSE ${PORT}
 
-CMD ["npm", "run", "prisma:start"]
+CMD [ "npm", "run", "prisma:start" ]
