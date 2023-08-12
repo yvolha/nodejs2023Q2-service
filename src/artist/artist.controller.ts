@@ -16,7 +16,6 @@ import { Artist } from '@prisma/client';
 
 import { IRoutes } from '../routes';
 import { ArtistService } from './artist.service';
-import { IDbEntities } from 'src/database/entities';
 import { ERR_MSGS } from 'src/utils/messages';
 import { CreateArtistDto, UpdateArtistDto } from './artist.dto';
 import { IArtist } from './artist.interface';
@@ -28,8 +27,8 @@ export class ArtistController {
 
   @Get()
   @HttpCode(HttpStatus.OK)
-  getAll() {
-    return this.artistService.getAll(IRoutes.artist);
+  async getAll() {
+    return (await this.artistService.getAll(IRoutes.artist)) as Artist[];
   }
 
   @Get(':id')
@@ -85,7 +84,6 @@ export class ArtistController {
       );
     }
 
-    await this.artistService.delete(id, IDbEntities.ALBUMS);
+    await this.artistService.delete(id, IRoutes.artist);
   }
-
 }

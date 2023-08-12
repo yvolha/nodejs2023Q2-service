@@ -9,16 +9,11 @@ import { CreateTrackDto, UpdateTrackDto } from 'src/track/track.dto';
 export class CommonService {
   constructor(private prisma: PrismaService) {}
 
-  async getAll(
-    field: string,
-  ): Promise<Artist[] | Album[] | Track[]> {
+  async getAll(field: string): Promise<Artist[] | Album[] | Track[]> {
     return await this.prisma[field].findMany();
   }
 
-  async getOne(
-    id: string,
-    field: string,
-  ): Promise<Artist | Album | Track> {
+  async getOne(id: string, field: string): Promise<Artist | Album | Track> {
     return await this.prisma[field].findUnique({
       where: {
         id,

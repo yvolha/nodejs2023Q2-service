@@ -24,9 +24,11 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document);
 
-  await app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-  }).catch(err => console.log(err));
+  await app
+    .listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}`);
+    })
+    .catch((err) => console.log(err));
 }
 
-bootstrap().catch(err => console.log(err));
+bootstrap().catch((err) => console.log(err));
