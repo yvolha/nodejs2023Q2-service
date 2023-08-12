@@ -1,30 +1,58 @@
-import { IAlbum } from 'src/album/album.interface';
-import { IArtist } from 'src/artist/artist.interface';
-import { database } from 'src/database/database';
+import { Album, Artist, Track } from '@prisma/client';
 import { PrismaService } from 'src/prisma-module/prisma.service';
-import { ITrack } from 'src/track/track.interface';
+import { Injectable } from '@nestjs/common';
+import { CreateAlbumDto, UpdateAlbumDto } from 'src/album/album.dto';
+import { CreateArtistDto, UpdateArtistDto } from 'src/artist/artist.dto';
+import { CreateTrackDto, UpdateTrackDto } from 'src/track/track.dto';
 
+@Injectable()
 export class CommonService {
-  constructor(private prismaService: PrismaService) {}
+  constructor(private prisma: PrismaService) {}
 
-  async getAll(field: string): Promise<Array<IArtist | IAlbum | ITrack>> {
-    console.log(this.prismaService);
-    return await this.prismaService[field].findMany();
+  async getAll(
+    field: string,
+  ): Promise<Artist[] | Album[] | Track[]> {
+    return await this.prisma[field].findMany();
   }
 
   async getOne(
     id: string,
     field: string,
-  ): Promise<IArtist | IAlbum | ITrack | undefined> {
-    return await database[field].find(
-      (item: IArtist | IAlbum | ITrack) => item.id === id,
-    );
+  ): Promise<Artist | Album | Track> {
+    return await this.prisma[field].findUnique({
+      where: {
+        id,
+      },
+    });
+  }
+
+  async create(
+    data: CreateAlbumDto | CreateArtistDto | CreateTrackDto,
+    field: string,
+  ): Promise<Artist | Album | Track> {
+    return await this.prisma[field].create({
+      data,
+    });
+  }
+
+  async update(
+    id: string,
+    data: UpdateAlbumDto | UpdateArtistDto | UpdateTrackDto,
+    field: string,
+  ): Promise<Artist | Album | Track> {
+    return await this.prisma[field].update({
+      where: {
+        id,
+      },
+      data,
+    });
   }
 
   async delete(id: string, field: string) {
-    database[field] = database[field].filter(
-      (item: IArtist | IAlbum | ITrack) => item.id !== id,
-    );
-    return;
+    return await this.prisma[field].delete({
+      where: {
+        id,
+      },
+    });
   }
 }

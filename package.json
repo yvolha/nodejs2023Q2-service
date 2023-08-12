@@ -19,7 +19,7 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "prisma:start": "npx prisma migrate dev && npm run start:dev",
+    "prisma:start": "npx prisma migrate dev --name init && npm run start:dev",
     "d:compose": "docker compose up --build",
     "start:migrate": "prisma migrate deploy && npm run start:prod"
   },
