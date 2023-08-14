@@ -29,18 +29,19 @@ export class UserController {
   @Get()
   @HttpCode(HttpStatus.OK)
   async getAll() {
-    const users = await this.userService.getAll();
+    const users = (await this.userService.getAll()) as unknown as UserEntity[];
     return users.map((user) => new UserEntity(user));
   }
 
   @Get(':id')
   @HttpCode(HttpStatus.OK)
   async getOne(@Param('id', new ParseUUIDPipe()) id: string) {
-    const user = await this.userService.getOne(id);
+    const user = (await this.userService.getOne(id)) as unknown as UserEntity;
 
     if (user) {
       return new UserEntity(user);
     } else {
+      user;
       throw new HttpException(
         ERR_MSGS.NOT_FOUND('User', id),
         HttpStatus.NOT_FOUND,
@@ -50,8 +51,8 @@ export class UserController {
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  createOne(@Body() createUserDto: CreateUserDto) {
-    const user = this.userService.createOne(createUserDto);
+  async createOne(@Body() createUserDto: CreateUserDto) {
+    const user = await this.userService.createOne(createUserDto);
     const { login, password } = createUserDto;
 
     if (!login || !password) {
@@ -61,11 +62,11 @@ export class UserController {
       );
     }
 
-    return new UserEntity(user);
+    return new UserEntity(user as unknown as UserEntity);
   }
 
   @Put(':id')
-  updateOne(
+  async updateOne(
     @Param('id', new ParseUUIDPipe())
     id: string,
     @Body() updatePasswordDto: UpdatePasswordDto,
@@ -87,18 +88,18 @@ export class UserController {
       );
     }
 
-    const updatedUser = this.userService.updateOne(id, updatePasswordDto);
+    const updatedUser = await this.userService.updateOne(id, updatePasswordDto);
 
     if (!updatedUser) {
       throw new HttpException(ERR_MSGS.WRONG_PASS(), HttpStatus.FORBIDDEN);
     }
 
-    return new UserEntity(updatedUser);
+    return new UserEntity(updatedUser as unknown as UserEntity);
   }
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  deleteUser(
+  async deleteUser(
     @Param('id', new ParseUUIDPipe())
     id: string,
   ) {
