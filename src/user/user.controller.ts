@@ -28,15 +28,15 @@ export class UserController {
 
   @Get()
   @HttpCode(HttpStatus.OK)
-  getAll() {
-    const users = this.userService.getAll();
+  async getAll() {
+    const users = await this.userService.getAll();
     return users.map((user) => new UserEntity(user));
   }
 
   @Get(':id')
   @HttpCode(HttpStatus.OK)
-  getOne(@Param('id', new ParseUUIDPipe()) id: string) {
-    const user = this.userService.getOne(id);
+  async getOne(@Param('id', new ParseUUIDPipe()) id: string) {
+    const user = await this.userService.getOne(id);
 
     if (user) {
       return new UserEntity(user);
