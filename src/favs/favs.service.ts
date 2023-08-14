@@ -6,7 +6,7 @@ import { NIL } from 'uuid';
 export class FavsService {
   constructor(private prisma: PrismaService) {}
 
-  async getFavorites() {
+  async getFavs() {
     const favs = await this.prisma.favs.findUnique({
       where: { id: NIL },
       select: {
