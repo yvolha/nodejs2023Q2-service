@@ -103,7 +103,7 @@ export class UserController {
     @Param('id', new ParseUUIDPipe())
     id: string,
   ) {
-    const user = this.userService.getOne(id);
+    const user = await this.userService.getOne(id);
 
     if (!user) {
       throw new HttpException(
