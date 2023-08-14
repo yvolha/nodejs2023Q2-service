@@ -23,7 +23,7 @@ export class FavsController {
 
   @Get()
   async getFavs() {
-    return this.favsService.getFavs();
+    return await this.favsService.getFavs();
   }
 
   @Post('track/:id')
