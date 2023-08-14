@@ -1,46 +1,98 @@
 import { Injectable } from '@nestjs/common';
-import { IAlbum } from 'src/album/album.interface';
-import { IArtist } from 'src/artist/artist.interface';
-import { database } from 'src/database/database';
-import { ITrack } from 'src/track/track.interface';
+import { PrismaService } from 'src/prisma-module/prisma.service';
+import { NIL } from 'uuid';
 
 @Injectable()
 export class FavsService {
-  getFavs() {
-    return {
-      artists: database.artists.filter((item) =>
-        database.favs.artists.includes(item.id),
-      ),
-      albums: database.albums.filter((item) =>
-        database.favs.albums.includes(item.id),
-      ),
-      tracks: database.tracks.filter((item) =>
-        database.favs.tracks.includes(item.id),
-      ),
-    };
+  constructor(private prisma: PrismaService) {}
+
+  async getFavs() {
+    const favs = await this.prisma.favs.findUnique({
+      where: { id: NIL },
+      select: {
+        tracks: {
+          select: {
+            id: true,
+            name: true,
+            artistId: true,
+            albumId: true,
+            duration: true,
+          },
+        },
+        artists: {
+          select: {
+            id: true,
+            name: true,
+            grammy: true,
+          },
+        },
+        albums: {
+          select: {
+            id: true,
+            name: true,
+            year: true,
+            artistId: true,
+          },
+        },
+      },
+    });
+
+    if (!favs) {
+      return await this.prisma.favs.create({
+        data: {
+          id: NIL,
+        },
+        select: {
+          tracks: {
+            select: {
+              id: true,
+              name: true,
+              artistId: true,
+              albumId: true,
+              duration: true,
+            },
+          },
+          artists: {
+            select: {
+              id: true,
+              name: true,
+              grammy: true,
+            },
+          },
+          albums: {
+            select: {
+              id: true,
+              name: true,
+              year: true,
+              artistId: true,
+            },
+          },
+        },
+      });
+    }
+
+    return favs;
   }
 
   async addToFavs(id: string, field: string) {
-    const item = database[field].find(
-      (el: IArtist | IAlbum | ITrack) => el.id === id,
-    );
-
-    if (!item) return;
-
-    database.favs[field] = [...database.favs[field], item.id];
-
-    return item;
+    return await this.prisma[field].update({
+      where: {
+        id: id,
+      },
+      data: {
+        favoritesId: NIL,
+      },
+    });
   }
 
   async deleteFromFavs(id: string, field: string) {
-    const item = database[field].find(
-      (el: IArtist | IAlbum | ITrack) => el.id === id,
-    );
-
-    if (!item) return;
-
-    database.favs[field] = database.favs[field].filter((_) => _ !== id);
-
-    return item;
+    return await this.prisma[field].update({
+      where: {
+        id: id,
+      },
+      data: {
+        favoritesId: null,
+      },
+    });
   }
 }

@@ -1,4 +1,5 @@
 import { Controller } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import {
   Get,
   Param,
@@ -14,27 +15,28 @@ import {
 
 import { IRoutes } from '../routes';
 import { AlbumService } from './album.service';
-import { IDbEntities } from 'src/database/entities';
 import { ERR_MSGS } from 'src/utils/messages';
 import { CreateAlbumDto, UpdateAlbumDto } from './album.dto';
+import { IAlbum } from './album.interface';
 
+@ApiTags(IRoutes.album)
 @Controller(IRoutes.album)
 export class AlbumController {
   constructor(private readonly albumService: AlbumService) {}
 
   @Get()
   @HttpCode(HttpStatus.OK)
-  getAll() {
-    return this.albumService.getAll(IDbEntities.ALBUMS);
+  async getAll() {
+    return await this.albumService.getAll(IRoutes.album);
   }
 
   @Get(':id')
   @HttpCode(HttpStatus.OK)
-  async getOne(@Param('id', new ParseUUIDPipe()) id: string) {
-    const album = await this.albumService.getOne(id, IDbEntities.ALBUMS);
+  async getOne(@Param('id', new ParseUUIDPipe()) id: string): Promise<IAlbum> {
+    const album = await this.albumService.getOne(id, IRoutes.album);
 
     if (album) {
-      return album;
+      return album as IAlbum;
     } else {
       throw new HttpException(
         ERR_MSGS.NOT_FOUND('Album', id),
@@ -45,7 +47,7 @@ export class AlbumController {
 
   @Post()
   async createOne(@Body() createAlbumDto: CreateAlbumDto) {
-    return this.albumService.createOne(createAlbumDto);
+    return this.albumService.create(createAlbumDto, IRoutes.album);
   }
 
   @Put(':id')
@@ -54,7 +56,7 @@ export class AlbumController {
     id: string,
     @Body() updateAlbumDto: UpdateAlbumDto,
   ) {
-    const album = await this.albumService.getOne(id, IDbEntities.ALBUMS);
+    const album = await this.albumService.getOne(id, IRoutes.album);
 
     if (!album) {
       throw new HttpException(
@@ -63,7 +65,7 @@ export class AlbumController {
       );
     }
 
-    return await this.albumService.updateOne(id, updateAlbumDto);
+    return await this.albumService.update(id, updateAlbumDto, IRoutes.album);
   }
 
   @Delete(':id')
@@ -72,7 +74,7 @@ export class AlbumController {
     @Param('id', new ParseUUIDPipe())
     id: string,
   ) {
-    const album = await this.albumService.getOne(id, IDbEntities.ALBUMS);
+    const album = await this.albumService.getOne(id, IRoutes.album);
 
     if (!album) {
       throw new HttpException(
@@ -81,6 +83,6 @@ export class AlbumController {
       );
     }
 
-    await this.albumService.delete(id, IDbEntities.ALBUMS);
+    await this.albumService.delete(id, IRoutes.album);
   }
 }

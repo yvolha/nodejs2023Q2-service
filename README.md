@@ -1,31 +1,14 @@
 # Home Library Service by Volha
 
 TO CHECK THE APP, PLEASE DO THE BELOW:
-
-## Downloading
-Please make sure to clone the branch **week-1**
-
-```
-git clone https://github.com/yvolha/nodejs2023Q2-service.git
-```
-
-## Installing NPM modules
-
-```
-npm install
-```
-
-## Running application
-
-```
-npm run start
-```
-
-
-## Testing
-
-To run all tests without authorization
-
-```
-npm run test
-```
+1. git clone https://github.com/yvolha/nodejs2023Q2-service.git
+2. run command
+`git checkout week-2`
+3. run command
+`npm i`
+4. update the name of the file .env.example to .env
+5. start Docker Desktop on your machine
+6. to run the application, run command
+`npm run docker`
+7. to run the tests, run command
+`npm run test`

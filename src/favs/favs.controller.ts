@@ -1,5 +1,6 @@
 import { IRoutes } from '../routes';
 import { Controller } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import {
   Get,
   Param,
@@ -15,13 +16,14 @@ import { IDbEntities } from 'src/database/entities';
 import { ERR_MSGS } from 'src/utils/messages';
 import { FavsService } from './favs.service';
 
+@ApiTags(IRoutes.favs)
 @Controller(IRoutes.favs)
 export class FavsController {
   constructor(private readonly favsService: FavsService) {}
 
   @Get()
   async getFavs() {
-    return this.favsService.getFavs();
+    return await this.favsService.getFavs();
   }
 
   @Post('track/:id')
