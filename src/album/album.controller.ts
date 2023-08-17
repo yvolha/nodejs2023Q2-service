@@ -19,8 +19,8 @@ import { ERR_MSGS } from 'src/utils/messages';
 import { CreateAlbumDto, UpdateAlbumDto } from './album.dto';
 import { IAlbum } from './album.interface';
 
-@ApiTags(IRoutes.album)
 @Controller(IRoutes.album)
+@ApiTags(IRoutes.album)
 export class AlbumController {
   constructor(private readonly albumService: AlbumService) {}
 

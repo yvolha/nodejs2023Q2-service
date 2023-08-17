@@ -12,7 +12,6 @@ import {
   ParseUUIDPipe,
   HttpException,
 } from '@nestjs/common';
-import { Artist } from '@prisma/client';
 
 import { IRoutes } from '../routes';
 import { ArtistService } from './artist.service';
@@ -28,7 +27,7 @@ export class ArtistController {
   @Get()
   @HttpCode(HttpStatus.OK)
   async getAll() {
-    return (await this.artistService.getAll(IRoutes.artist)) as Artist[];
+    return await this.artistService.getAll(IRoutes.artist);
   }
 
   @Get(':id')
