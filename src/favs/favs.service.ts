@@ -76,14 +76,18 @@ export class FavsService {
   }
 
   async addToFavs(id: string, field: string) {
-    return await this.prisma[field].update({
-      where: {
-        id: id,
-      },
-      data: {
-        favsId: NIL,
-      },
-    });
+    try {
+      return await this.prisma[field].update({
+        where: {
+          id: id,
+        },
+        data: {
+          favsId: NIL,
+        },
+      });
+    } catch {
+      return;
+    }
   }
 
   async deleteFromFavs(id: string, field: string) {

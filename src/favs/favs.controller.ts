@@ -91,7 +91,7 @@ export class FavsController {
 
   @Delete('album/:id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  async deleteAlbumFromFavorites(@Param('id', new ParseUUIDPipe()) id: string) {
+  async deleteAlbumFromFavs(@Param('id', new ParseUUIDPipe()) id: string) {
     const album = await this.favsService.deleteFromFavs(id, IRoutes.album);
 
     if (!album) {
@@ -104,9 +104,7 @@ export class FavsController {
 
   @Delete('artist/:id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  async deleteArtistFromFavorites(
-    @Param('id', new ParseUUIDPipe()) id: string,
-  ) {
+  async deleteArtistFromFavs(@Param('id', new ParseUUIDPipe()) id: string) {
     const artist = await this.favsService.deleteFromFavs(id, IRoutes.artist);
 
     if (!artist) {
