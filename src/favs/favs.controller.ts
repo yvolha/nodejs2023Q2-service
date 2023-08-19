@@ -28,7 +28,7 @@ export class FavsController {
 
   @Post('track/:id')
   async addTrackToFav(@Param('id', new ParseUUIDPipe()) id: string) {
-    const track = await this.favsService.addToFavs(id, IDbEntities.TRACKS);
+    const track = await this.favsService.addToFavs(id, IRoutes.track);
 
     if (track) {
       throw new HttpException(
@@ -45,7 +45,7 @@ export class FavsController {
 
   @Post('album/:id')
   async addAlbumToFav(@Param('id', new ParseUUIDPipe()) id: string) {
-    const album = await this.favsService.addToFavs(id, IDbEntities.ALBUMS);
+    const album = await this.favsService.addToFavs(id, IRoutes.album);
 
     if (album) {
       throw new HttpException(
@@ -62,7 +62,7 @@ export class FavsController {
 
   @Post('artist/:id')
   async addArtistToFav(@Param('id', new ParseUUIDPipe()) id: string) {
-    const artist = await this.favsService.addToFavs(id, IDbEntities.ARTISTS);
+    const artist = await this.favsService.addToFavs(id, IRoutes.artist);
 
     if (artist) {
       throw new HttpException(

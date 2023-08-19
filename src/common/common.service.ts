@@ -24,7 +24,7 @@ export class CommonService {
   async create(
     data: CreateAlbumDto | CreateArtistDto | CreateTrackDto,
     field: string,
-  ){
+  ) {
     return await this.prisma[field].create({
       data,
     });

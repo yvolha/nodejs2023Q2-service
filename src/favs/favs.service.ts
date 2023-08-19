@@ -36,6 +36,7 @@ export class FavsService {
         },
       },
     });
+    console.log(favs);
 
     if (!favs) {
       return await this.prisma.favs.create({
@@ -80,7 +81,7 @@ export class FavsService {
         id: id,
       },
       data: {
-        favoritesId: NIL,
+        favsId: NIL,
       },
     });
   }
@@ -91,7 +92,7 @@ export class FavsService {
         id: id,
       },
       data: {
-        favoritesId: null,
+        favsId: null,
       },
     });
   }
