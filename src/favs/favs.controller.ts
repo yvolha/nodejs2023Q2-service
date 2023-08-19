@@ -12,7 +12,6 @@ import {
   HttpException,
 } from '@nestjs/common';
 
-import { IDbEntities } from 'src/database/entities';
 import { ERR_MSGS } from 'src/utils/messages';
 import { FavsService } from './favs.service';
 
@@ -80,7 +79,7 @@ export class FavsController {
   @Delete('track/:id')
   @HttpCode(HttpStatus.NO_CONTENT)
   async deleteTrackFromFavs(@Param('id', new ParseUUIDPipe()) id: string) {
-    const track = await this.favsService.deleteFromFavs(id, IDbEntities.TRACKS);
+    const track = await this.favsService.deleteFromFavs(id, IRoutes.track);
 
     if (!track) {
       throw new HttpException(
@@ -93,7 +92,7 @@ export class FavsController {
   @Delete('album/:id')
   @HttpCode(HttpStatus.NO_CONTENT)
   async deleteAlbumFromFavorites(@Param('id', new ParseUUIDPipe()) id: string) {
-    const album = await this.favsService.deleteFromFavs(id, IDbEntities.ALBUMS);
+    const album = await this.favsService.deleteFromFavs(id, IRoutes.album);
 
     if (!album) {
       throw new HttpException(
@@ -108,10 +107,7 @@ export class FavsController {
   async deleteArtistFromFavorites(
     @Param('id', new ParseUUIDPipe()) id: string,
   ) {
-    const artist = await this.favsService.deleteFromFavs(
-      id,
-      IDbEntities.ARTISTS,
-    );
+    const artist = await this.favsService.deleteFromFavs(id, IRoutes.artist);
 
     if (!artist) {
       throw new HttpException(
