@@ -71,7 +71,7 @@ export class UserController {
     id: string,
     @Body() updatePasswordDto: UpdatePasswordDto,
   ) {
-    const user = this.userService.getOne(id);
+    const user = await this.userService.getOne(id);
     const { oldPassword, newPassword } = updatePasswordDto;
 
     if (!oldPassword || !newPassword) {

@@ -25,7 +25,7 @@ model Album {
   artistId String? @unique
   track    Track[]
   favs     Favs?   @relation(fields: [favsId], references: [id])
-  favsId   String
+  favsId   String?
 }
 
 model Artist {
