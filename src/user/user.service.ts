@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateUserDto, UpdatePasswordDto } from './user.dto';
 import { PrismaService } from 'src/prisma-module/prisma.service';
 import { getHashedPassword } from 'src/utils/getHashedPassword';
+import { compare } from 'bcryptjs';
 
 @Injectable()
 export class UserService {
@@ -29,10 +30,18 @@ export class UserService {
   async updateOne(id: string, updatePasswordDto: UpdatePasswordDto) {
     const user = await this.getOne(id);
 
-    if (user && user.password === updatePasswordDto.oldPassword) {
+    const isPassCorrect = await compare(
+      updatePasswordDto.oldPassword,
+      user.password,
+    );
+
+    if (user && isPassCorrect) {
+      const newHashedPassword = await getHashedPassword(
+        updatePasswordDto.newPassword,
+      );
       return await this.prisma.user.update({
         data: {
-          password: updatePasswordDto.newPassword,
+          password: newHashedPassword,
           version: user.version + 1,
         },
         where: {
