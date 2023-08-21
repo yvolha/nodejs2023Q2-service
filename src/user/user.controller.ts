@@ -12,6 +12,7 @@ import {
   Put,
   Delete,
   HttpStatus,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { IRoutes } from '../routes';
@@ -19,6 +20,7 @@ import { UserService } from './user.service';
 import { UserEntity } from './user.entity';
 import { ERR_MSGS } from 'src/utils/messages';
 import { CreateUserDto, UpdatePasswordDto } from './user.dto';
+import { JwtAuthGuard } from 'src/auth/auth.guard';
 
 @ApiTags(IRoutes.user)
 @Controller(IRoutes.user)

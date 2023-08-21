@@ -36,7 +36,6 @@ export class FavsService {
         },
       },
     });
-    console.log(favs);
 
     if (!favs) {
       return await this.prisma.favs.create({

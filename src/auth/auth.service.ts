@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from 'src/user/user.dto';
 import { UserService } from 'src/user/user.service';
-import { LoginUserDto } from './auth.dto';
+import { LoginUserDto, RefreshTokenDto } from './auth.dto';
 import { JwtService } from '@nestjs/jwt';
 import { IPayload } from './auth.interface';
 import { PrismaService } from 'src/prisma-module/prisma.service';
@@ -37,8 +37,14 @@ export class AuthService {
     } catch (err) {}
   }
 
-  async refreshToken() {
-    console.log('refreshing');
+  async refreshToken({ refreshToken }: RefreshTokenDto) {
+    try {
+      const { login, sub } = await this.jwtService.verifyAsync(refreshToken, {
+        secret: process.env.JWT_SECRET_REFRESH_KEY,
+      });
+
+      return await this.createTokens({ login, sub });
+    } catch (err) {}
   }
 
   async createTokens(payload: IPayload) {
