@@ -1,9 +1,9 @@
-export interface ITokens {
+export class ITokens {
   accessToken: string;
   refreshToken: string;
 }
 
-export interface IPayload {
+export class IPayload {
   login: string;
   sub: string;
 }
