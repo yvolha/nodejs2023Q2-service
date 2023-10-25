@@ -4,4 +4,8 @@ export enum IRoutes {
   favs = 'favs',
   track = 'track',
   user = 'user',
+  auth = 'auth',
+  signup = 'signup',
+  login = 'login',
+  refresh = 'refresh',
 }

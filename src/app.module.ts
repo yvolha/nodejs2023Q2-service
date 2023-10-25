@@ -9,6 +9,7 @@ import { ArtistModule } from './artist/artist.module';
 import { FavsModule } from './favs/favs.module';
 import { PrismaModule } from './prisma-module/prisma.module';
 import { CommonModule } from './common/common.module';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -20,6 +21,11 @@ import { CommonModule } from './common/common.module';
     FavsModule,
     CommonModule,
     PrismaModule,
+    JwtModule.register({
+      global: true,
+      secret: process.env.JWT_SECRET_KEY,
+      signOptions: { expiresIn: process.env.TOKEN_EXPIRE_TIME },
+    }),
   ],
   controllers: [AppController],
   providers: [AppService],

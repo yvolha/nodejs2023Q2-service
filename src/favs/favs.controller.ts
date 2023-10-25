@@ -12,7 +12,6 @@ import {
   HttpException,
 } from '@nestjs/common';
 
-import { IDbEntities } from 'src/database/entities';
 import { ERR_MSGS } from 'src/utils/messages';
 import { FavsService } from './favs.service';
 
@@ -28,7 +27,7 @@ export class FavsController {
 
   @Post('track/:id')
   async addTrackToFav(@Param('id', new ParseUUIDPipe()) id: string) {
-    const track = await this.favsService.addToFavs(id, IDbEntities.TRACKS);
+    const track = await this.favsService.addToFavs(id, IRoutes.track);
 
     if (track) {
       throw new HttpException(
@@ -45,7 +44,7 @@ export class FavsController {
 
   @Post('album/:id')
   async addAlbumToFav(@Param('id', new ParseUUIDPipe()) id: string) {
-    const album = await this.favsService.addToFavs(id, IDbEntities.ALBUMS);
+    const album = await this.favsService.addToFavs(id, IRoutes.album);
 
     if (album) {
       throw new HttpException(
@@ -62,7 +61,7 @@ export class FavsController {
 
   @Post('artist/:id')
   async addArtistToFav(@Param('id', new ParseUUIDPipe()) id: string) {
-    const artist = await this.favsService.addToFavs(id, IDbEntities.ARTISTS);
+    const artist = await this.favsService.addToFavs(id, IRoutes.artist);
 
     if (artist) {
       throw new HttpException(
@@ -80,7 +79,7 @@ export class FavsController {
   @Delete('track/:id')
   @HttpCode(HttpStatus.NO_CONTENT)
   async deleteTrackFromFavs(@Param('id', new ParseUUIDPipe()) id: string) {
-    const track = await this.favsService.deleteFromFavs(id, IDbEntities.TRACKS);
+    const track = await this.favsService.deleteFromFavs(id, IRoutes.track);
 
     if (!track) {
       throw new HttpException(
@@ -92,8 +91,8 @@ export class FavsController {
 
   @Delete('album/:id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  async deleteAlbumFromFavorites(@Param('id', new ParseUUIDPipe()) id: string) {
-    const album = await this.favsService.deleteFromFavs(id, IDbEntities.ALBUMS);
+  async deleteAlbumFromFavs(@Param('id', new ParseUUIDPipe()) id: string) {
+    const album = await this.favsService.deleteFromFavs(id, IRoutes.album);
 
     if (!album) {
       throw new HttpException(
@@ -105,13 +104,8 @@ export class FavsController {
 
   @Delete('artist/:id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  async deleteArtistFromFavorites(
-    @Param('id', new ParseUUIDPipe()) id: string,
-  ) {
-    const artist = await this.favsService.deleteFromFavs(
-      id,
-      IDbEntities.ARTISTS,
-    );
+  async deleteArtistFromFavs(@Param('id', new ParseUUIDPipe()) id: string) {
+    const artist = await this.favsService.deleteFromFavs(id, IRoutes.artist);
 
     if (!artist) {
       throw new HttpException(
